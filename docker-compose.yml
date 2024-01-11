@@ -1,0 +1,17 @@
+version: '3.8'
+
+services:
+  postgres:
+    container_name: formlydb
+    image: postgres:15
+    volumes:
+      - formlydata:/var/lib/postgresql/data
+    ports:
+      - '5500:5432'
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_DB: formly
+      POSTGRES_PASSWORD: password
+
+volumes:
+  formlydata:
