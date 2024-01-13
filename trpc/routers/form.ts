@@ -1,5 +1,6 @@
 import { createFormSchema } from '@/schemas/create-form';
 import { protectedProcedure, router } from '../procedures';
+import * as z from 'zod';
 
 export const formRouter = router({
   create: protectedProcedure
@@ -22,6 +23,27 @@ export const formRouter = router({
       where: {
         userId,
       },
+      include: {
+        user: true,
+        _count: {
+          select: {
+            responses: true,
+          },
+        },
+      },
     });
   }),
+
+  delete: protectedProcedure
+    .input(z.object({ formId: z.string() }))
+    .mutation(async ({ ctx, input }) => {
+      const userId = ctx.user.id;
+
+      return await ctx.db.form.delete({
+        where: {
+          id: input.formId,
+          userId,
+        },
+      });
+    }),
 });

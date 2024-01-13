@@ -1,4 +1,5 @@
 'use client';
+import { Icons } from '@/components/icons';
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
@@ -17,6 +18,7 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
+import { api } from '@/lib/trpc';
 import { createFormSchema } from '@/schemas/create-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Plus } from 'lucide-react';
@@ -26,9 +28,22 @@ import * as z from 'zod';
 const CreateFormDialog = () => {
   const form = useForm<z.infer<typeof createFormSchema>>({
     resolver: zodResolver(createFormSchema),
+    defaultValues: {
+      name: '',
+    },
   });
 
-  const onCreateForm = () => {};
+  const createForm = api.form.create.useMutation();
+
+  const context = api.useContext();
+
+  const onCreateForm = (data: z.infer<typeof createFormSchema>) => {
+    createForm.mutate(data, {
+      onSuccess: () => {
+        context.form.getAll.invalidate();
+      },
+    });
+  };
 
   return (
     <Dialog>
@@ -59,7 +74,7 @@ const CreateFormDialog = () => {
                     <Input
                       placeholder="My new form"
                       {...field}
-                      className="border-gray-300"
+                      className="border-gray-300 font-medium"
                     />
                   </FormControl>
                   <FormMessage />
@@ -67,7 +82,12 @@ const CreateFormDialog = () => {
               )}
             />
             <DialogFooter>
-              <Button type="submit">Continue</Button>
+              <Button type="submit" disabled={createForm.isLoading}>
+                {createForm.isLoading && (
+                  <Icons.spinner className="w-4 h-4 animate-spin mr-2" />
+                )}
+                Continue
+              </Button>
             </DialogFooter>
           </form>
         </Form>
