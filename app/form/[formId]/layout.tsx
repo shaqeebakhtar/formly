@@ -6,12 +6,7 @@ type FormLayoutProps = {
 };
 
 const FormLayout = ({ children }: FormLayoutProps) => {
-  return (
-    <>
-      <Topbar />
-      {children}
-    </>
-  );
+  return <div className="min-h-screen w-full bg-gray-50">{children}</div>;
 };
 
 export default FormLayout;

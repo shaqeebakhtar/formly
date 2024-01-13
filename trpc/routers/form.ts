@@ -34,6 +34,19 @@ export const formRouter = router({
     });
   }),
 
+  getById: protectedProcedure
+    .input(z.object({ formId: z.string() }))
+    .query(async ({ ctx, input }) => {
+      const userId = ctx.user.id;
+
+      return await ctx.db.form.findFirst({
+        where: {
+          id: input.formId,
+          userId,
+        },
+      });
+    }),
+
   delete: protectedProcedure
     .input(z.object({ formId: z.string() }))
     .mutation(async ({ ctx, input }) => {
