@@ -36,6 +36,33 @@ model User {
   emailVerified DateTime?
   image         String?
   accounts      Account[]
+  forms         Form[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Form {
+  id        String     @id @default(cuid())
+  name      String
+  published Boolean    @default(false)
+  fields    String?
+  views     Int        @default(0)
+  responses Response[]
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Response {
+  id       String  @id @default(cuid())
+  response String?
+
+  form   Form   @relation(fields: [formId], references: [id], onDelete: Cascade)
+  formId String
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

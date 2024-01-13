@@ -57,9 +57,3 @@
     @apply bg-background text-foreground;
   }
 }
-
-:root,
-html,
-body {
-  height: 100%;
-}
