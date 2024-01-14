@@ -11,6 +11,7 @@ import Topbar from '../_components/topbar';
 import DragOverlayWrapper from './_components/drag-overlay-wrapper';
 import Editor from './_components/editor';
 import EditorSidebar from './_components/sidebar/sidebar';
+import { useId } from 'react';
 
 type FormEditorProps = {
   params: {
@@ -38,12 +39,26 @@ const FormEditor = ({ params }: FormEditorProps) => {
 
   const sensors = useSensors(mouseSensor, touchSensor);
 
+  const id = useId();
+
   return (
     <>
       <Topbar formName={getFormById.data?.name!} formId={params.formId} />
-      <DndContext sensors={sensors}>
+      <DndContext sensors={sensors} id={id}>
         <div className="w-full flex h-[calc(100vh-66px)]">
-          <Editor />
+          <Editor
+            form={{
+              ...getFormById.data,
+              id: getFormById.data?.id!,
+              name: getFormById.data?.name!,
+              published: getFormById.data?.published!,
+              fields: getFormById.data?.fields!,
+              views: getFormById.data?.views!,
+              userId: getFormById.data?.userId!,
+              createdAt: new Date(getFormById?.data?.createdAt!),
+              updatedAt: new Date(getFormById?.data?.updatedAt!),
+            }}
+          />
           <EditorSidebar />
         </div>
         <DragOverlayWrapper />

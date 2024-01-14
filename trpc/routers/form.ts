@@ -59,4 +59,20 @@ export const formRouter = router({
         },
       });
     }),
+
+  save: protectedProcedure
+    .input(z.object({ formId: z.string(), fields: z.string() }))
+    .mutation(async ({ ctx, input }) => {
+      const userId = ctx.user.id;
+
+      return await ctx.db.form.update({
+        where: {
+          id: input.formId,
+          userId,
+        },
+        data: {
+          fields: input.fields,
+        },
+      });
+    }),
 });

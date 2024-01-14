@@ -5,26 +5,25 @@ import {
   TFields,
   TFormField,
 } from '@/app/form/[formId]/editor/_components/form-fields';
-import { Type } from 'lucide-react';
-import React, { useEffect } from 'react';
-import { Label } from '../ui/label';
-import { Input } from '../ui/input';
-import { useForm } from 'react-hook-form';
 import {
   shortTextSettingsSchema,
   shortTextSettingsSchemaType,
 } from '@/schemas/fields/short-text';
-import { zodResolver } from '@hookform/resolvers/zod';
 import { useEditorFields } from '@/store/use-editor-fields';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { Type } from 'lucide-react';
+import { useEffect } from 'react';
+import { useForm } from 'react-hook-form';
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
 } from '../ui/form';
+import { Input } from '../ui/input';
+import { Label } from '../ui/label';
 import { Switch } from '../ui/switch';
 
 const type: TFields = 'ShortText';

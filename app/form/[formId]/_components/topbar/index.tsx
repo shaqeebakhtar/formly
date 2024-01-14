@@ -22,7 +22,7 @@ const Topbar = ({ formName, formId }: TopbarProps) => {
             <p className="font-medium">{formName}</p>
           </div>
           <Navigation formId={formId} />
-          <UserActions />
+          <UserActions formId={formId} />
         </div>
       </div>
     </div>

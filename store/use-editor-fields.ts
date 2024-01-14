@@ -3,6 +3,7 @@ import { create } from 'zustand';
 
 interface EditorFieldsStore {
   fields: FormFieldInstance[];
+  setFields: (data: FormFieldInstance[]) => void;
 
   addField: (index: number, field: FormFieldInstance) => void;
   removeField: (id: string) => void;
@@ -42,6 +43,10 @@ const updateFieldValues = (
 
 export const useEditorFields = create<EditorFieldsStore>((set) => ({
   fields: [],
+  setFields: (data: FormFieldInstance[]) =>
+    set(() => ({
+      fields: data,
+    })),
 
   addField: (index: number, field: FormFieldInstance) =>
     set((state) => ({

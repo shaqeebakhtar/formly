@@ -5,6 +5,7 @@ import { Copy, Trash2 } from 'lucide-react';
 import { useState } from 'react';
 import { FormFieldInstance, formFields } from './form-fields';
 import { useEditorFields } from '@/store/use-editor-fields';
+import { generateRandomId } from '@/lib/generate-random-id';
 
 type EditorFieldProps = {
   field: FormFieldInstance;
@@ -13,9 +14,8 @@ type EditorFieldProps = {
 const EditorField = ({ field }: EditorFieldProps) => {
   const [isMouseOver, setIsMouseOver] = useState(false);
   const EditorComponent = formFields[field.type].editorComponent;
-  const { removeField, setSelectedField, selectedField } = useEditorFields(
-    (state) => state
-  );
+  const { fields, removeField, addField, setSelectedField, selectedField } =
+    useEditorFields((state) => state);
 
   const topHalf = useDroppable({
     id: field.id + '-top',
@@ -78,7 +78,24 @@ const EditorField = ({ field }: EditorFieldProps) => {
                 <p className="text-foreground animate-pulse">Click to edit</p>
               </div>
               <div className="flex flex-col items-center justify-center flex-1 max-w-16  h-full space-y-2 rounded-r-md">
-                <Button variant={'outline'} size={'icon'}>
+                <Button
+                  variant={'outline'}
+                  size={'icon'}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    const currentFieldIndex = fields.findIndex(
+                      (ele) => ele.id === field.id
+                    );
+
+                    const currentFieldCopy = { ...fields[currentFieldIndex] };
+
+                    currentFieldCopy.id = generateRandomId();
+
+                    let copyFieldIndex = currentFieldIndex + 1;
+
+                    addField(copyFieldIndex, currentFieldCopy);
+                  }}
+                >
                   <Copy className="w-4 h-4" />
                 </Button>
                 <Button

@@ -4,10 +4,22 @@ import { DragEndEvent, useDndMonitor, useDroppable } from '@dnd-kit/core';
 import { TFields, formFields } from './form-fields';
 import { generateRandomId } from '@/lib/generate-random-id';
 import EditorField from './editor-field';
+import { useEffect } from 'react';
+import { Form } from '@prisma/client';
 
-const Editor = () => {
-  const { fields, addField, selectedField, setSelectedField, removeField } =
-    useEditorFields((state) => state);
+type EditorProps = {
+  form: Form;
+};
+
+const Editor = ({ form }: EditorProps) => {
+  const {
+    fields,
+    setFields,
+    addField,
+    selectedField,
+    setSelectedField,
+    removeField,
+  } = useEditorFields((state) => state);
 
   const droppable = useDroppable({
     id: 'editor-drop-area',
@@ -15,6 +27,13 @@ const Editor = () => {
       isEditorDropArea: true,
     },
   });
+
+  useEffect(() => {
+    if (form.fields) {
+      const fields = JSON.parse(form.fields);
+      setFields(fields);
+    }
+  }, [form, setFields]);
 
   useDndMonitor({
     onDragEnd: (event: DragEndEvent) => {
