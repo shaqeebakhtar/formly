@@ -31,9 +31,9 @@ const type: TFields = 'ShortText';
 
 const options = {
   label: 'Short Text',
-  placeholder: 'Placeholder...',
+  placeholder: 'Placeholder',
   required: false,
-  description: 'Description text',
+  description: 'Description',
 };
 
 type CustomInstance = FormFieldInstance & {
@@ -67,7 +67,8 @@ function EditorComponent({
   return (
     <div className="space-y-1">
       <Label className="text-gray-500">
-        {label} {required && '*'}
+        {label}{' '}
+        {required && <span className="text-destructive font-bold">*</span>}
       </Label>
       <Input readOnly placeholder={placeholder} />
       {description && (
@@ -77,8 +78,26 @@ function EditorComponent({
   );
 }
 
-function FormComponent() {
-  return <div></div>;
+function FormComponent({
+  fieldInstance,
+}: {
+  fieldInstance: FormFieldInstance;
+}) {
+  const field = fieldInstance as CustomInstance;
+  const { label, placeholder, description, required } = field.options;
+
+  return (
+    <div className="space-y-1">
+      <Label className="text-gray-500">
+        {label}{' '}
+        {required && <span className="text-destructive font-bold">*</span>}
+      </Label>
+      <Input placeholder={placeholder} />
+      {description && (
+        <p className="text-muted-foreground text-sm">{description}</p>
+      )}
+    </div>
+  );
 }
 
 function PropertiesComponent({

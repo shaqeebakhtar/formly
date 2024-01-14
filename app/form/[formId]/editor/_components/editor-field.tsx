@@ -49,7 +49,10 @@ const EditorField = ({ field }: EditorFieldProps) => {
   return (
     <div
       ref={draggable.setNodeRef}
-      className="relative cursor-pointer"
+      className={cn(
+        'relative cursor-pointer shadow-sm rounded-md',
+        selectedField?.id === field.id && 'ring-2 ring-primary '
+      )}
       onMouseEnter={() => setIsMouseOver(true)}
       onMouseLeave={() => setIsMouseOver(false)}
       {...draggable.attributes}

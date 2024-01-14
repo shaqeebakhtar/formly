@@ -1,15 +1,13 @@
-import { Home } from 'lucide-react';
-import React from 'react';
-import Navigation from './navigation';
-import UserActions from './user-actions';
+'use client';
+
+import { Button } from '@/components/ui/button';
+import { X } from 'lucide-react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
-type TopbarProps = {
-  formName: string;
-  formId: string;
-};
+const PreviewTopbar = () => {
+  const router = useRouter();
 
-const Topbar = ({ formName, formId }: TopbarProps) => {
   return (
     <div className="sticky left-0 right-0 top-0 z-20 border-b border-gray-200 bg-white">
       <div className="mx-auto w-full max-w-screen-3xl px-2.5 lg:px-20">
@@ -19,14 +17,17 @@ const Topbar = ({ formName, formId }: TopbarProps) => {
               Home
             </Link>
             <span className="text-muted-foreground">/</span>
-            <p className="font-medium">{formName}</p>
+            <p className="font-medium">New Form</p>
           </div>
-          <Navigation formId={formId} />
-          <UserActions />
+
+          <Button variant={'outline'} onClick={() => router.push('editor')}>
+            <X className="w-5 h-5 mr-2" />
+            Close Preview
+          </Button>
         </div>
       </div>
     </div>
   );
 };
 
-export default Topbar;
+export default PreviewTopbar;

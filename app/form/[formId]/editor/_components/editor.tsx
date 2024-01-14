@@ -117,7 +117,7 @@ const Editor = () => {
           </p>
         )}
         {fields.length > 0 && (
-          <div className="flex flex-col w-full gap-2">
+          <div className="flex flex-col w-full gap-3">
             {fields.map((field) => (
               <EditorField key={field.id} field={field} />
             ))}
