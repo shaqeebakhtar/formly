@@ -16,7 +16,7 @@ type FormCardProps = {
 };
 
 const FormCard = ({ form, responses }: FormCardProps) => {
-  const shareUrl = `${getBaseURL()}/form/${form.id}`;
+  const shareUrl = `${getBaseURL()}/s/${form.id}`;
 
   return (
     <Card>

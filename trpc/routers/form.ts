@@ -1,5 +1,5 @@
 import { createFormSchema } from '@/schemas/create-form';
-import { protectedProcedure, router } from '../procedures';
+import { protectedProcedure, publicProcedure, router } from '../procedures';
 import * as z from 'zod';
 
 export const formRouter = router({
@@ -92,6 +92,35 @@ export const formRouter = router({
         data: {
           published: true,
           fields: input.fields,
+        },
+      });
+    }),
+
+  getFieldsById: publicProcedure
+    .input(z.object({ formId: z.string() }))
+    .query(async ({ ctx, input }) => {
+      return await ctx.db.form.update({
+        select: {
+          fields: true,
+        },
+        where: {
+          id: input.formId,
+        },
+        data: {
+          views: {
+            increment: 1,
+          },
+        },
+      });
+    }),
+
+  submit: publicProcedure
+    .input(z.object({ formId: z.string(), response: z.string() }))
+    .mutation(async ({ ctx, input }) => {
+      return await ctx.db.response.create({
+        data: {
+          response: input.response,
+          formId: input.formId,
         },
       });
     }),

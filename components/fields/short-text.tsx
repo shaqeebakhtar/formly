@@ -4,6 +4,7 @@ import {
   FormFieldInstance,
   TFields,
   TFormField,
+  TUpdateFieldValue,
 } from '@/app/form/[formId]/editor/_components/form-fields';
 import {
   shortTextSettingsSchema,
@@ -12,7 +13,7 @@ import {
 import { useEditorFields } from '@/store/use-editor-fields';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Type } from 'lucide-react';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import {
   Form,
@@ -25,6 +26,7 @@ import {
 import { Input } from '../ui/input';
 import { Label } from '../ui/label';
 import { Switch } from '../ui/switch';
+import { cn } from '@/lib/utils';
 
 const type: TFields = 'ShortText';
 
@@ -53,6 +55,15 @@ export const ShortTextFormField: TFormField = {
     icon: Type,
     label: 'Short Text',
   },
+  validate: (formField: FormFieldInstance, currentValue): boolean => {
+    const field = formField as CustomInstance;
+
+    if (field.options.required) {
+      return currentValue.length > 0;
+    }
+
+    return true;
+  },
 };
 
 function EditorComponent({
@@ -79,21 +90,56 @@ function EditorComponent({
 
 function FormComponent({
   fieldInstance,
+  updateFieldValue,
+  isInvalid,
+  defaultValue,
 }: {
   fieldInstance: FormFieldInstance;
+  updateFieldValue?: TUpdateFieldValue;
+  isInvalid?: boolean;
+  defaultValue?: string;
 }) {
   const field = fieldInstance as CustomInstance;
   const { label, placeholder, description, required } = field.options;
 
+  const [value, setValue] = useState(defaultValue || '');
+  const [error, setError] = useState<boolean>(false);
+
+  useEffect(() => {
+    setError(isInvalid === true);
+  }, [isInvalid]);
+
   return (
     <div className="space-y-1">
-      <Label className="text-gray-500">
+      <Label
+        htmlFor={field.id}
+        className={cn('text-gray-500', error && 'text-destructive')}
+      >
         {label}{' '}
         {required && <span className="text-destructive font-bold">*</span>}
       </Label>
-      <Input placeholder={placeholder} />
+      <Input
+        id={field.id}
+        placeholder={placeholder}
+        onChange={(e) => setValue(e.target.value)}
+        onBlur={(e) => {
+          if (!updateFieldValue) return;
+          const valid = ShortTextFormField.validate(field, e.target.value);
+          setError(!valid);
+          if (!valid) return;
+          updateFieldValue(field.id, e.target.value);
+        }}
+        value={value}
+      />
       {description && (
-        <p className="text-muted-foreground text-sm">{description}</p>
+        <p
+          className={cn(
+            'text-muted-foreground text-sm',
+            error && 'text-destructive'
+          )}
+        >
+          {description}
+        </p>
       )}
     </div>
   );

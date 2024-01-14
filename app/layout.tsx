@@ -17,7 +17,7 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
       <Providers>
         <body className={inter.className}>
           {children}
-          <Toaster position="top-center" />
+          <Toaster position="bottom-center" />
         </body>
       </Providers>
     </html>

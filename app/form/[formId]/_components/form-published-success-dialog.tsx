@@ -26,7 +26,7 @@ const FormPublishedSuccessDialog = ({
   open,
   setIsOpen,
 }: FormPublishedSuccessDialogProps) => {
-  const shareUrl = `${getBaseURL()}/form/${formId}`;
+  const shareUrl = `${getBaseURL()}/s/${formId}`;
   const [copied, setCopied] = useState(false);
 
   return (
