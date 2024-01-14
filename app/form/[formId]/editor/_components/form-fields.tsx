@@ -16,8 +16,12 @@ export type TFormField = {
   editorComponent: React.FC<{
     fieldInstance: FormFieldInstance;
   }>;
+
   formComponent: React.FC;
-  propertiesComponent: React.FC;
+
+  propertiesComponent: React.FC<{
+    fieldInstance: FormFieldInstance;
+  }>;
 };
 
 export type FormFieldInstance = {

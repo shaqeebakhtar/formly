@@ -1,7 +1,7 @@
 import { Active, DragOverlay, useDndMonitor } from '@dnd-kit/core';
 import { useState } from 'react';
 import { TFields, formFields } from './form-fields';
-import { SidebarFieldBtnDragOverlay } from './sidebar-field-btn';
+import { SidebarFieldBtnDragOverlay } from './sidebar/sidebar-field-btn';
 import { useEditorFields } from '@/store/use-editor-fields';
 
 const DragOverlayWrapper = () => {
@@ -44,7 +44,7 @@ const DragOverlayWrapper = () => {
       const EditorComponent = formFields[field.type].editorComponent;
 
       node = (
-        <div className="w-full bg-accent px-4 py-3 rounded-md pointer-events-none">
+        <div className="w-full bg-accent/50 px-4 py-3 rounded-md pointer-events-none">
           <EditorComponent fieldInstance={field} />
         </div>
       );

@@ -8,9 +8,9 @@ import {
   useSensors,
 } from '@dnd-kit/core';
 import Topbar from '../_components/topbar';
-import DragOverlayWrapper from './drag-overlay-wrapper';
-import Editor from './editor';
-import EditorSidebar from './sidebar';
+import DragOverlayWrapper from './_components/drag-overlay-wrapper';
+import Editor from './_components/editor';
+import EditorSidebar from './_components/sidebar/sidebar';
 
 type FormEditorProps = {
   params: {

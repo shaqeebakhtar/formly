@@ -6,7 +6,9 @@ import { generateRandomId } from '@/lib/generate-random-id';
 import EditorField from './editor-field';
 
 const Editor = () => {
-  const { fields, addField } = useEditorFields((state) => state);
+  const { fields, addField, selectedField, setSelectedField } = useEditorFields(
+    (state) => state
+  );
 
   const droppable = useDroppable({
     id: 'editor-drop-area',
@@ -36,7 +38,12 @@ const Editor = () => {
   });
 
   return (
-    <div className="flex-1 h-full p-4">
+    <div
+      className="flex-1 h-full p-4"
+      onClick={() => {
+        if (selectedField) setSelectedField(null);
+      }}
+    >
       <div
         ref={droppable.setNodeRef}
         className={cn(

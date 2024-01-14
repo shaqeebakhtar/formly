@@ -13,7 +13,9 @@ type EditorFieldProps = {
 const EditorField = ({ field }: EditorFieldProps) => {
   const [isMouseOver, setIsMouseOver] = useState(false);
   const EditorComponent = formFields[field.type].editorComponent;
-  const { removeField } = useEditorFields((state) => state);
+  const { removeField, setSelectedField, selectedField } = useEditorFields(
+    (state) => state
+  );
 
   const topHalf = useDroppable({
     id: field.id + '-top',
@@ -52,6 +54,10 @@ const EditorField = ({ field }: EditorFieldProps) => {
       onMouseLeave={() => setIsMouseOver(false)}
       {...draggable.attributes}
       {...draggable.listeners}
+      onClick={(e) => {
+        e.stopPropagation();
+        setSelectedField(field);
+      }}
     >
       <div
         ref={topHalf.setNodeRef}
@@ -76,7 +82,11 @@ const EditorField = ({ field }: EditorFieldProps) => {
                   className="text-destructive hover:bg-destructive hover:text-destructive-foreground"
                   variant={'outline'}
                   size={'icon'}
-                  onClick={() => removeField(field.id)}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    removeField(field.id);
+                    setSelectedField(null);
+                  }}
                 >
                   <Trash2 className="w-4 h-4" />
                 </Button>
