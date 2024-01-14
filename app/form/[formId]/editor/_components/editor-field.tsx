@@ -6,6 +6,7 @@ import { useState } from 'react';
 import { FormFieldInstance, formFields } from './form-fields';
 import { useEditorFields } from '@/store/use-editor-fields';
 import { generateRandomId } from '@/lib/generate-random-id';
+import { Skeleton } from '@/components/ui/skeleton';
 
 type EditorFieldProps = {
   field: FormFieldInstance;
@@ -72,7 +73,7 @@ const EditorField = ({ field }: EditorFieldProps) => {
       ></div>
       {isMouseOver && (
         <>
-          <div className="absolute inset-0 w-full h-full flex items-center justify-center ">
+          <div className="absolute inset-0 w-full h-full flex items-center justify-center">
             <div className="flex w-full h-full rounded-md bg-gray-100/50">
               <div className="grid place-items-center flex-1 text-center top-1/2">
                 <p className="text-foreground animate-pulse">Click to edit</p>
@@ -133,3 +134,13 @@ const EditorField = ({ field }: EditorFieldProps) => {
 };
 
 export default EditorField;
+
+export const EditorFieldSkeleton = () => {
+  return (
+    <div className="w-full bg-accent/30 px-4 py-3 rounded-md space-y-2">
+      <Skeleton className="h-4 w-28" />
+      <Skeleton className="h-8 w-full" />
+      <Skeleton className="h-4 w-40" />
+    </div>
+  );
+};

@@ -35,9 +35,6 @@ const FormCardDropdownMenu = ({ formId }: FormCardDropdownMenuProps) => {
           <DropdownMenuItem>Edit</DropdownMenuItem>
         </Link>
         <DropdownMenuItem>Rename</DropdownMenuItem>
-        <Link href={`/form/${formId}/responses`}>
-          <DropdownMenuItem>View Responses</DropdownMenuItem>
-        </Link>
         <DropdownMenuSeparator />
         <DropdownMenuItem
           className="text-destructive focus:text-destructive focus:bg-destructive/10"

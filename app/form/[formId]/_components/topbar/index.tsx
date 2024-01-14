@@ -15,7 +15,7 @@ const Topbar = ({ formName, formId }: TopbarProps) => {
       <div className="mx-auto w-full max-w-screen-3xl px-2.5 lg:px-20">
         <div className="flex h-16 items-center justify-between">
           <div className="flex space-x-2 text-sm">
-            <Link href="/" className="text-muted-foreground">
+            <Link href="/forms" className="text-muted-foreground">
               Home
             </Link>
             <span className="text-muted-foreground">/</span>

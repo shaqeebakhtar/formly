@@ -4,7 +4,7 @@ import { api } from '@/lib/trpc';
 import { useEditorFields } from '@/store/use-editor-fields';
 import { Eye, Save } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import React from 'react';
+import { toast } from 'sonner';
 
 type UserActionsProps = {
   formId: string;
@@ -16,7 +16,7 @@ const UserActions = ({ formId }: UserActionsProps) => {
 
   const saveForm = api.form.save.useMutation({
     onSuccess: () => {
-      console.log('form saved');
+      toast.success('Form saved successfully.');
     },
   });
 

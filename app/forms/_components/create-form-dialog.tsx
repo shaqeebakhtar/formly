@@ -22,10 +22,13 @@ import { api } from '@/lib/trpc';
 import { createFormSchema } from '@/schemas/create-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Plus } from 'lucide-react';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { toast } from 'sonner';
 import * as z from 'zod';
 
 const CreateFormDialog = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const form = useForm<z.infer<typeof createFormSchema>>({
     resolver: zodResolver(createFormSchema),
     defaultValues: {
@@ -41,12 +44,14 @@ const CreateFormDialog = () => {
     createForm.mutate(data, {
       onSuccess: () => {
         context.form.getAll.invalidate();
+        toast.success('Form created successfully');
+        setIsModalOpen(false);
       },
     });
   };
 
   return (
-    <Dialog>
+    <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
       <DialogTrigger asChild>
         <Button>
           <Plus className="w-4 h-4 mr-2" strokeWidth={3} />

@@ -3,7 +3,7 @@ import { useEditorFields } from '@/store/use-editor-fields';
 import { DragEndEvent, useDndMonitor, useDroppable } from '@dnd-kit/core';
 import { TFields, formFields } from './form-fields';
 import { generateRandomId } from '@/lib/generate-random-id';
-import EditorField from './editor-field';
+import EditorField, { EditorFieldSkeleton } from './editor-field';
 import { useEffect } from 'react';
 import { Form } from '@prisma/client';
 
@@ -29,10 +29,8 @@ const Editor = ({ form }: EditorProps) => {
   });
 
   useEffect(() => {
-    if (form.fields) {
-      const fields = JSON.parse(form.fields);
-      setFields(fields);
-    }
+    const fields = JSON.parse(form.fields || '[]');
+    setFields(fields);
   }, [form, setFields]);
 
   useDndMonitor({
@@ -148,3 +146,17 @@ const Editor = ({ form }: EditorProps) => {
 };
 
 export default Editor;
+
+export const EditorSkeleton = () => {
+  return (
+    <div className="flex-1 h-full p-4">
+      <div className="h-full p-4 bg-background shadow-sm max-w-screen-md border m-auto rounded-lg flex flex-col flex-grow items-center justify-start flex-1 overflow-y-auto">
+        <div className="flex flex-col w-full gap-3">
+          {[...Array(4)].map((_, i) => (
+            <EditorFieldSkeleton key={i} />
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+};
