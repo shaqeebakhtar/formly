@@ -6,9 +6,8 @@ import { generateRandomId } from '@/lib/generate-random-id';
 import EditorField from './editor-field';
 
 const Editor = () => {
-  const { fields, addField, selectedField, setSelectedField } = useEditorFields(
-    (state) => state
-  );
+  const { fields, addField, selectedField, setSelectedField, removeField } =
+    useEditorFields((state) => state);
 
   const droppable = useDroppable({
     id: 'editor-drop-area',
@@ -25,14 +24,72 @@ const Editor = () => {
 
       const isSidbarFieldBtn = active?.data?.current?.isSidbarFieldBtn;
 
-      if (isSidbarFieldBtn) {
+      // dropping a sidebar field element over the editor
+      const isDroppingOverEditorDropArea =
+        over?.data?.current?.isEditorDropArea;
+
+      if (isSidbarFieldBtn && isDroppingOverEditorDropArea) {
         const type = active?.data?.current?.type;
 
         const newField = formFields[type as TFields].construct(
           generateRandomId()
         );
 
-        addField(0, newField);
+        addField(fields.length, newField);
+      }
+
+      // dropping a sidebar field element over the existing editor fields
+      const isDroppingOverEditorFieldsTopHalf =
+        over?.data?.current?.isTopHalfEditorField;
+
+      const isDroppingOverEditorFieldsBottomHalf =
+        over?.data?.current?.isBottomHalfEditorField;
+
+      const isDroppingOverEditorFields =
+        isDroppingOverEditorFieldsTopHalf ||
+        isDroppingOverEditorFieldsBottomHalf;
+
+      if (isSidbarFieldBtn && isDroppingOverEditorFields) {
+        const type = active?.data?.current?.type;
+
+        const newField = formFields[type as TFields].construct(
+          generateRandomId()
+        );
+
+        const overFieldIndex = fields.findIndex(
+          (field) => field.id === over?.data?.current?.fieldId
+        );
+
+        let newFieldIndex = overFieldIndex;
+        if (isDroppingOverEditorFieldsBottomHalf) {
+          newFieldIndex = overFieldIndex + 1;
+        }
+
+        addField(newFieldIndex, newField);
+      }
+
+      // dropping a editor field over another field
+      const isDroppingEditorField = active?.data?.current?.isEditorField;
+
+      if (isDroppingOverEditorFields && isDroppingEditorField) {
+        const activeFieldIndex = fields.findIndex(
+          (field) => field.id === active?.data?.current?.fieldId
+        );
+
+        const overFieldIndex = fields.findIndex(
+          (field) => field.id === over?.data?.current?.fieldId
+        );
+
+        const activeField = { ...fields[activeFieldIndex] };
+
+        removeField(active?.data?.current?.fieldId);
+
+        let newFieldIndex = overFieldIndex;
+        if (isDroppingOverEditorFieldsBottomHalf) {
+          newFieldIndex = overFieldIndex + 1;
+        }
+
+        addField(newFieldIndex, activeField);
       }
     },
   });
