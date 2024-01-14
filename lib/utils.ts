@@ -6,8 +6,6 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export function getBaseURL() {
-  if (typeof window !== 'undefined') return '';
-
   if (process.env.VERCEL_URL) return `https://${process.env.VERCEL_URL}`;
 
   if (process.env.RENDER_INTERNAL_HOSTNAME)

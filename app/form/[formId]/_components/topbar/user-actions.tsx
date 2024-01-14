@@ -4,7 +4,9 @@ import { api } from '@/lib/trpc';
 import { useEditorFields } from '@/store/use-editor-fields';
 import { Eye, Save } from 'lucide-react';
 import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 import { toast } from 'sonner';
+import FormPublishedSuccessDialog from '../form-published-success-dialog';
 
 type UserActionsProps = {
   formId: string;
@@ -13,6 +15,7 @@ type UserActionsProps = {
 const UserActions = ({ formId }: UserActionsProps) => {
   const router = useRouter();
   const { fields } = useEditorFields((state) => state);
+  const [openPublishSuccessModal, setOpenPublishSuccessModal] = useState(false);
 
   const saveForm = api.form.save.useMutation({
     onSuccess: () => {
@@ -20,8 +23,21 @@ const UserActions = ({ formId }: UserActionsProps) => {
     },
   });
 
+  const publishForm = api.form.publish.useMutation({
+    onSuccess: () => {
+      setOpenPublishSuccessModal(true);
+    },
+  });
+
   const handleSaveForm = () => {
     saveForm.mutate({
+      fields: JSON.stringify(fields),
+      formId,
+    });
+  };
+
+  const handlePublishForm = () => {
+    publishForm.mutate({
       fields: JSON.stringify(fields),
       formId,
     });
@@ -46,7 +62,17 @@ const UserActions = ({ formId }: UserActionsProps) => {
         <Eye className="w-5 h-5 mr-2 text-muted-foreground" />
         Preview
       </Button>
-      <Button>Publish</Button>
+      <Button onClick={handlePublishForm} disabled={publishForm.isLoading}>
+        {publishForm.isLoading && (
+          <Icons.spinner className="w-4 h-4 animate-spin mr-2" />
+        )}
+        Publish
+      </Button>
+      <FormPublishedSuccessDialog
+        formId={formId}
+        open={openPublishSuccessModal}
+        setIsOpen={setOpenPublishSuccessModal}
+      />
     </div>
   );
 };
