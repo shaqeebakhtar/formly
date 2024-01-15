@@ -1,8 +1,9 @@
+'use client';
 import React from 'react';
 import FormAnalytics from './_components/form-analytics';
-import { api } from '@/lib/trpc';
 import ResponsesTable from './_components/responses-table';
 import MaxWidthWrapper from '@/components/max-width-wrapper';
+import { api } from '@/lib/trpc';
 
 type FormResponsesProps = {
   params: {
@@ -11,9 +12,9 @@ type FormResponsesProps = {
 };
 
 const FormResponses = ({ params }: FormResponsesProps) => {
-  // const getFormById = api.form.getById.useQuery({
-  //   formId: params.formId,
-  // });
+  const getFormResponsesById = api.form.getResponsesById.useQuery({
+    formId: params.formId,
+  });
 
   return (
     <>
@@ -24,8 +25,18 @@ const FormResponses = ({ params }: FormResponsesProps) => {
       </div>
       <div className="h-full p-8">
         <MaxWidthWrapper className="max-w-screen-2xl">
-          <FormAnalytics />
-          <ResponsesTable />
+          {getFormResponsesById.data && (
+            <>
+              <FormAnalytics
+                views={getFormResponsesById.data.views}
+                submissions={getFormResponsesById.data._count.responses}
+              />
+              <ResponsesTable
+                responses={getFormResponsesById.data.responses}
+                fields={getFormResponsesById.data.fields!}
+              />
+            </>
+          )}
         </MaxWidthWrapper>
       </div>
     </>

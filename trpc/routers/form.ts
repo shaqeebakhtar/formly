@@ -124,4 +124,25 @@ export const formRouter = router({
         },
       });
     }),
+
+  getResponsesById: protectedProcedure
+    .input(z.object({ formId: z.string() }))
+    .query(async ({ ctx, input }) => {
+      const userId = ctx.user.id;
+
+      return await ctx.db.form.findFirst({
+        where: {
+          id: input.formId,
+          userId,
+        },
+        include: {
+          responses: true,
+          _count: {
+            select: {
+              responses: true,
+            },
+          },
+        },
+      });
+    }),
 });

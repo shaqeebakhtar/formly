@@ -1,12 +1,12 @@
-import MaxWidthWrapper from '@/components/max-width-wrapper';
 import { Eye, LucideIcon, MousePointerClick, Percent } from 'lucide-react';
 
-type Props = {};
-
-const FormAnalytics = (props: Props) => {
-  const views = 336;
-  const submissions = 54;
-
+const FormAnalytics = ({
+  views,
+  submissions,
+}: {
+  views: number;
+  submissions: number;
+}) => {
   let submissionRate = 0;
 
   if (views > 0) {
