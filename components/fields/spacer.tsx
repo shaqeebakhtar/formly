@@ -5,8 +5,13 @@ import {
   TFields,
   TFormField,
 } from '@/app/form/[formId]/editor/_components/form-fields';
+import {
+  SpacerSettingsSchema,
+  SpacerSettingsSchemaType,
+} from '@/schemas/fields/spacer';
+import { useEditorFields } from '@/store/use-editor-fields';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { Space } from 'lucide-react';
-import { Separator } from '../ui/separator';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import {
@@ -17,13 +22,6 @@ import {
   FormLabel,
   FormMessage,
 } from '../ui/form';
-import { Input } from '../ui/input';
-import {
-  SpacerSettingsSchema,
-  SpacerSettingsSchemaType,
-} from '@/schemas/fields/spacer';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useEditorFields } from '@/store/use-editor-fields';
 import { Slider } from '../ui/slider';
 
 const type: TFields = 'Spacer';

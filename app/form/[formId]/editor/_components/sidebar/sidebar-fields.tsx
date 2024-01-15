@@ -11,6 +11,10 @@ const SidebarFields = () => {
       <SidebarFieldBtn formField={formFields.Paragraph} />
       <SidebarFieldBtn formField={formFields.Separator} />
       <SidebarFieldBtn formField={formFields.Spacer} />
+      <SidebarFieldBtn formField={formFields.Number} />
+      <SidebarFieldBtn formField={formFields.TextArea} />
+      <SidebarFieldBtn formField={formFields.Select} />
+      <SidebarFieldBtn formField={formFields.Checkbox} />
     </div>
   );
 };

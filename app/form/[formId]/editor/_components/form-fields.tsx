@@ -5,6 +5,10 @@ import { TitleFormField } from '@/components/fields/title';
 import { SeparatorFormField } from '@/components/fields/separator';
 import { LucideIcon } from 'lucide-react';
 import { SpacerFormField } from '@/components/fields/spacer';
+import { NumberFormField } from '@/components/fields/number';
+import { TextAreaFormField } from '@/components/fields/text-area';
+import { SelectFormField } from '@/components/fields/select';
+import { CheckboxFormField } from '@/components/fields/checkbox';
 
 export type TFields =
   | 'ShortText'
@@ -12,7 +16,11 @@ export type TFields =
   | 'SubTitle'
   | 'Paragraph'
   | 'Separator'
-  | 'Spacer';
+  | 'Spacer'
+  | 'Number'
+  | 'TextArea'
+  | 'Select'
+  | 'Checkbox';
 
 export type TUpdateFieldValue = (key: string, value: string) => void;
 
@@ -61,4 +69,8 @@ export const formFields: TFormFields = {
   Paragraph: ParagraphFormField,
   Separator: SeparatorFormField,
   Spacer: SpacerFormField,
+  Number: NumberFormField,
+  TextArea: TextAreaFormField,
+  Select: SelectFormField,
+  Checkbox: CheckboxFormField,
 };
