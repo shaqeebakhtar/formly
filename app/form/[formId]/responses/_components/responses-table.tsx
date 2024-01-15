@@ -13,6 +13,7 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import { formatDistance } from 'date-fns';
+import { Checkbox } from '@/components/ui/checkbox';
 
 type CustomResponse = Omit<Response, 'createdAt' | 'updatedAt'> & {
   createdAt: string;
@@ -40,6 +41,10 @@ const ResponsesTable = ({ responses, fields }: ResponsesTable) => {
   formFields.forEach((field) => {
     switch (field.type) {
       case 'ShortText':
+      case 'Number':
+      case 'TextArea':
+      case 'Select':
+      case 'Checkbox':
         columns.push({
           id: field.id,
           label: field.options?.label,
@@ -99,5 +104,12 @@ const ResponsesTable = ({ responses, fields }: ResponsesTable) => {
 export default ResponsesTable;
 
 const RowCell = ({ type, value }: { type: TFields; value: string }) => {
-  return <TableCell>{value}</TableCell>;
+  let node: React.ReactNode = value;
+
+  if (type === 'Checkbox') {
+    const checked = value === 'true';
+    node = <Checkbox checked={checked} disabled />;
+  }
+
+  return <TableCell>{node}</TableCell>;
 };
