@@ -1,7 +1,18 @@
+import { ParagraphFormField } from '@/components/fields/paragraph';
 import { ShortTextFormField } from '@/components/fields/short-text';
+import { SubTitleFormField } from '@/components/fields/sub-title';
+import { TitleFormField } from '@/components/fields/title';
+import { SeparatorFormField } from '@/components/fields/separator';
 import { LucideIcon } from 'lucide-react';
+import { SpacerFormField } from '@/components/fields/spacer';
 
-export type TFields = 'ShortText';
+export type TFields =
+  | 'ShortText'
+  | 'Title'
+  | 'SubTitle'
+  | 'Paragraph'
+  | 'Separator'
+  | 'Spacer';
 
 export type TUpdateFieldValue = (key: string, value: string) => void;
 
@@ -45,4 +56,9 @@ type TFormFields = {
 
 export const formFields: TFormFields = {
   ShortText: ShortTextFormField,
+  Title: TitleFormField,
+  SubTitle: SubTitleFormField,
+  Paragraph: ParagraphFormField,
+  Separator: SeparatorFormField,
+  Spacer: SpacerFormField,
 };
