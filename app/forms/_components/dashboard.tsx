@@ -25,7 +25,7 @@ const Dashboard = () => {
             <div className="flex items-end space-x-2">
               <h1 className="text-2xl">Forms</h1>
               <span className="text-gray-600 text-lg">
-                ({forms.data?.length})
+                ({forms.data?.length || '0'})
               </span>
             </div>
             <div>
