@@ -1,12 +1,11 @@
 'use client';
 
 import MaxWidthWrapper from '@/components/max-width-wrapper';
-import CreateFormDialog from './_components/create-form-dialog';
-import FormCard, { FormCardSkeleton } from './_components/form-card';
 import { api } from '@/lib/trpc';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
-import { useEffect } from 'react';
+import CreateFormDialog from './_components/create-form-dialog';
+import FormCard, { FormCardSkeleton } from './_components/form-card';
 
 const FormsDashboard = () => {
   const { data: session } = useSession();
@@ -14,11 +13,9 @@ const FormsDashboard = () => {
 
   const forms = api.form.getAll.useQuery();
 
-  useEffect(() => {
-    if (!session || !session.user) {
-      typeof window !== 'undefined' && router.push('/register');
-    }
-  }, [router, session]);
+  if (!session || !session.user) {
+    typeof window !== 'undefined' && router.push('/register');
+  }
 
   return (
     <>

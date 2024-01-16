@@ -11,13 +11,11 @@ const Home = () => {
   const { data: session } = useSession();
   const router = useRouter();
 
-  useEffect(() => {
-    if (!session || !session.user) {
-      typeof window !== 'undefined' && router.push('/register');
-    } else {
-      typeof window !== 'undefined' && router.push('/forms');
-    }
-  }, [router, session]);
+  if (!session || !session.user) {
+    typeof window !== 'undefined' && router.push('/register');
+  } else {
+    typeof window !== 'undefined' && router.push('/forms');
+  }
 
   return (
     <div className="grid place-items-center min-h-screen">
