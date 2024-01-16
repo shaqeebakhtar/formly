@@ -16,7 +16,7 @@ const FormsDashboard = () => {
 
   useEffect(() => {
     if (!session || !session.user) {
-      router.push('/register');
+      typeof window !== 'undefined' && router.push('/register');
     }
   }, [router, session]);
 
