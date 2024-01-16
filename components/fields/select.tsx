@@ -281,14 +281,14 @@ function PropertiesComponent({
                 <FormLabel>Choices</FormLabel>
                 <Button
                   variant={'outline'}
-                  className="gap-2"
+                  className="gap-2 px-3"
                   onClick={(e) => {
                     e.preventDefault(); // avoid submit
                     form.setValue('choices', field.value.concat('New option'));
                   }}
                 >
-                  <Plus />
-                  Add
+                  <Plus className="w-4 h-4" />
+                  <span>Add</span>
                 </Button>
               </div>
               <div className="flex flex-col gap-2">
@@ -315,7 +315,7 @@ function PropertiesComponent({
                         field.onChange(newOptions);
                       }}
                     >
-                      <Trash2 />
+                      <Trash2 className="w-4 h-4 text-destructive" />
                     </Button>
                   </div>
                 ))}

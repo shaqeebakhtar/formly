@@ -78,7 +78,7 @@ const EditorField = ({ field }: EditorFieldProps) => {
               <div className="grid place-items-center flex-1 text-center top-1/2">
                 <p className="text-foreground animate-pulse">Click to edit</p>
               </div>
-              <div className="flex flex-col items-center justify-center flex-1 max-w-16  h-full space-y-2 rounded-r-md">
+              <div className="flex items-center justify-center flex-1 max-w-24  h-full space-x-2 rounded-r-md">
                 <Button
                   variant={'outline'}
                   size={'icon'}

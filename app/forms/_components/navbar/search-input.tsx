@@ -9,6 +9,8 @@ const SearchInput = () => {
         <Search className="h-4 w-4 text-gray-400" />
       </div>
       <Input
+        readOnly
+        disabled
         className="peer w-full rounded-md border border-gray-300 pl-10 sm:text-sm"
         placeholder="Search..."
       />

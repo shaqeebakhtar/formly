@@ -9,9 +9,11 @@ import { NumberFormField } from '@/components/fields/number';
 import { TextAreaFormField } from '@/components/fields/text-area';
 import { SelectFormField } from '@/components/fields/select';
 import { CheckboxFormField } from '@/components/fields/checkbox';
+import { EmailFormField } from '@/components/fields/email';
 
 export type TFields =
   | 'ShortText'
+  | 'Email'
   | 'Title'
   | 'SubTitle'
   | 'Paragraph'
@@ -64,6 +66,7 @@ type TFormFields = {
 
 export const formFields: TFormFields = {
   ShortText: ShortTextFormField,
+  Email: EmailFormField,
   Title: TitleFormField,
   SubTitle: SubTitleFormField,
   Paragraph: ParagraphFormField,

@@ -8,12 +8,12 @@ import {
 } from '@/app/form/[formId]/editor/_components/form-fields';
 import { cn } from '@/lib/utils';
 import {
-  TextAreaSettingsSchema,
-  TextAreaSettingsSchemaType,
-} from '@/schemas/fields/text-area';
+  EmailSettingsSchema,
+  EmailSettingsSchemaType,
+} from '@/schemas/fields/email';
 import { useEditorFields } from '@/store/use-editor-fields';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { ScrollText } from 'lucide-react';
+import { AtSign } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import {
@@ -27,24 +27,21 @@ import {
 import { Input } from '../ui/input';
 import { Label } from '../ui/label';
 import { Switch } from '../ui/switch';
-import { Textarea } from '../ui/textarea';
-import { Slider } from '../ui/slider';
 
-const type: TFields = 'TextArea';
+const type: TFields = 'Email';
 
 const options = {
-  label: 'Textarea',
+  label: 'Email',
   placeholder: 'Placeholder',
   required: false,
   description: 'Description',
-  rows: 4,
 };
 
 type CustomInstance = FormFieldInstance & {
   options: typeof options;
 };
 
-export const TextAreaFormField: TFormField = {
+export const EmailFormField: TFormField = {
   type,
   editorComponent: EditorComponent,
   formComponent: FormComponent,
@@ -55,17 +52,19 @@ export const TextAreaFormField: TFormField = {
     options,
   }),
   editorBtnField: {
-    icon: ScrollText,
-    label: 'Textarea',
+    icon: AtSign,
+    label: 'Email',
   },
   validate: (formField: FormFieldInstance, currentValue): boolean => {
     const field = formField as CustomInstance;
 
+    const pattern = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
+
     if (field.options.required) {
-      return currentValue.length > 0;
+      return currentValue.length > 0 && pattern.test(currentValue);
     }
 
-    return true;
+    return pattern.test(currentValue);
   },
 };
 
@@ -75,7 +74,7 @@ function EditorComponent({
   fieldInstance: FormFieldInstance;
 }) {
   const field = fieldInstance as CustomInstance;
-  const { label, placeholder, description, required, rows } = field.options;
+  const { label, placeholder, description, required } = field.options;
 
   return (
     <div className="space-y-1">
@@ -83,7 +82,7 @@ function EditorComponent({
         {label}{' '}
         {required && <span className="text-destructive font-bold">*</span>}
       </Label>
-      <Textarea rows={rows} readOnly placeholder={placeholder} />
+      <Input readOnly placeholder={placeholder} />
       {description && (
         <p className="text-muted-foreground text-sm">{description}</p>
       )}
@@ -103,7 +102,7 @@ function FormComponent({
   defaultValue?: string;
 }) {
   const field = fieldInstance as CustomInstance;
-  const { label, placeholder, description, required, rows } = field.options;
+  const { label, placeholder, description, required } = field.options;
 
   const [value, setValue] = useState(defaultValue || '');
   const [error, setError] = useState<boolean>(false);
@@ -121,14 +120,13 @@ function FormComponent({
         {label}{' '}
         {required && <span className="text-destructive font-bold">*</span>}
       </Label>
-      <Textarea
+      <Input
         id={field.id}
-        rows={rows}
         placeholder={placeholder}
         onChange={(e) => setValue(e.target.value)}
         onBlur={(e) => {
           if (!updateFieldValue) return;
-          const valid = TextAreaFormField.validate(field, e.target.value);
+          const valid = EmailFormField.validate(field, e.target.value);
           setError(!valid);
           if (!valid) return;
           updateFieldValue(field.id, e.target.value);
@@ -155,18 +153,17 @@ function PropertiesComponent({
   fieldInstance: FormFieldInstance;
 }) {
   const field = fieldInstance as CustomInstance;
-  const { label, description, placeholder, required, rows } = field.options;
+  const { label, description, placeholder, required } = field.options;
   const { updateField } = useEditorFields((state) => state);
 
-  const form = useForm<TextAreaSettingsSchemaType>({
-    resolver: zodResolver(TextAreaSettingsSchema),
+  const form = useForm<EmailSettingsSchemaType>({
+    resolver: zodResolver(EmailSettingsSchema),
     mode: 'onBlur',
     defaultValues: {
       label,
       placeholder,
       required,
       description,
-      rows,
     },
   });
 
@@ -174,8 +171,8 @@ function PropertiesComponent({
     form.reset(field.options);
   }, [field, form]);
 
-  function saveChanges(values: TextAreaSettingsSchemaType) {
-    const { label, description, placeholder, required, rows } = values;
+  function saveChanges(values: EmailSettingsSchemaType) {
+    const { label, description, placeholder, required } = values;
     updateField(field.id, {
       ...field,
       options: {
@@ -183,7 +180,6 @@ function PropertiesComponent({
         description,
         placeholder,
         required,
-        rows,
       },
     });
   }
@@ -246,27 +242,6 @@ function PropertiesComponent({
                   {...field}
                   onKeyDown={(e) => {
                     if (e.key === 'Enter') e.currentTarget.blur();
-                  }}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="rows"
-          render={({ field }) => (
-            <FormItem className="space-y-4">
-              <FormLabel>Rows {form.watch('rows')}</FormLabel>
-              <FormControl>
-                <Slider
-                  defaultValue={[field.value]}
-                  min={1}
-                  max={10}
-                  step={1}
-                  onValueChange={(value) => {
-                    field.onChange(value[0]);
                   }}
                 />
               </FormControl>

@@ -4,7 +4,13 @@ import React from 'react';
 import { formFields } from '../editor/_components/form-fields';
 import PreviewTopbar from './_components/topbar';
 
-const FormPreview = () => {
+type FormPreviewProps = {
+  params: {
+    formId: string;
+  };
+};
+
+const FormPreview = ({ params }: FormPreviewProps) => {
   const { fields } = useEditorFields((state) => state);
 
   return (

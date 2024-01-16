@@ -1,11 +1,12 @@
+import { generateRandomId } from '@/lib/generate-random-id';
 import { cn } from '@/lib/utils';
 import { useEditorFields } from '@/store/use-editor-fields';
 import { DragEndEvent, useDndMonitor, useDroppable } from '@dnd-kit/core';
-import { TFields, formFields } from './form-fields';
-import { generateRandomId } from '@/lib/generate-random-id';
-import EditorField, { EditorFieldSkeleton } from './editor-field';
-import { useEffect } from 'react';
 import { Form } from '@prisma/client';
+import { MousePointerClick } from 'lucide-react';
+import { useEffect } from 'react';
+import EditorField, { EditorFieldSkeleton } from './editor-field';
+import { TFields, formFields } from './form-fields';
 
 type EditorProps = {
   form: Form;
@@ -29,8 +30,10 @@ const Editor = ({ form }: EditorProps) => {
   });
 
   useEffect(() => {
-    const fields = JSON.parse(form.fields || '[]');
-    setFields(fields);
+    if (form.fields) {
+      const fields = JSON.parse(form.fields);
+      setFields(fields);
+    }
   }, [form, setFields]);
 
   useDndMonitor({
@@ -129,9 +132,13 @@ const Editor = ({ form }: EditorProps) => {
           <div className="w-full h-24 bg-secondary rounded-md"></div>
         )}
         {!droppable.isOver && fields.length === 0 && (
-          <p className="font-semibold text-xl flex flex-grow items-center">
-            Drop Here
-          </p>
+          <div className="flex-grow text-gray-500 flex flex-col gap-2 items-center justify-center">
+            <MousePointerClick />
+            <p>
+              <span className="font-bold">Drag & Drop</span> elements from right
+              to build your form.
+            </p>
+          </div>
         )}
         {fields.length > 0 && (
           <div className="flex flex-col w-full gap-3">

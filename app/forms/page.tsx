@@ -4,9 +4,18 @@ import MaxWidthWrapper from '@/components/max-width-wrapper';
 import CreateFormDialog from './_components/create-form-dialog';
 import FormCard, { FormCardSkeleton } from './_components/form-card';
 import { api } from '@/lib/trpc';
+import { useSession } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
 
 const FormsDashboard = () => {
+  const { data: session } = useSession();
+  const router = useRouter();
+
   const forms = api.form.getAll.useQuery();
+
+  if (!session || !session.user) {
+    router.push('/register');
+  }
 
   return (
     <>

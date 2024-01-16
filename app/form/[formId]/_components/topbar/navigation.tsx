@@ -20,10 +20,6 @@ const Navigation = ({ formId }: NavigationProps) => {
       label: 'Responses',
       path: `/form/${formId}/responses`,
     },
-    {
-      label: 'Settings',
-      path: `/form/${formId}/settings`,
-    },
   ];
 
   return (

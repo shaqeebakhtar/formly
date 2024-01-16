@@ -36,5 +36,11 @@ function FormComponent() {
 }
 
 function PropertiesComponent() {
-  return <p>Can&apos;t edit a separator</p>;
+  return (
+    <div className="w-full h-48 grid place-items-center">
+      <p className="font-semibold text-gray-500">
+        No options to edit for separator
+      </p>
+    </div>
+  );
 }

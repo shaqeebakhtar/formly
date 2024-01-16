@@ -1,9 +1,4 @@
-import { Response } from '@prisma/client';
-import React from 'react';
-import {
-  FormFieldInstance,
-  TFields,
-} from '../../editor/_components/form-fields';
+import { Checkbox } from '@/components/ui/checkbox';
 import {
   Table,
   TableBody,
@@ -12,8 +7,13 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { formatDistance } from 'date-fns';
-import { Checkbox } from '@/components/ui/checkbox';
+import { Response } from '@prisma/client';
+import { formatRelative } from 'date-fns';
+import React from 'react';
+import {
+  FormFieldInstance,
+  TFields,
+} from '../../editor/_components/form-fields';
 
 type CustomResponse = Omit<Response, 'createdAt' | 'updatedAt'> & {
   createdAt: string;
@@ -41,6 +41,7 @@ const ResponsesTable = ({ responses, fields }: ResponsesTable) => {
   formFields.forEach((field) => {
     switch (field.type) {
       case 'ShortText':
+      case 'Email':
       case 'Number':
       case 'TextArea':
       case 'Select':
@@ -71,11 +72,18 @@ const ResponsesTable = ({ responses, fields }: ResponsesTable) => {
       <h3 className="font-medium text-xl">Responses</h3>
       <Table>
         <TableHeader>
-          <TableRow className="bg-gray-200 hover:bg-gray-200">
+          <TableRow className="bg-gray-100 hover:bg-gray-100">
             {columns.map((column) => (
-              <TableHead key={column.id}>{column.label}</TableHead>
+              <TableHead
+                className="text-gray-700 font-semibold"
+                key={column.id}
+              >
+                {column.label}
+              </TableHead>
             ))}
-            <TableHead className="text-right">Submitted At</TableHead>
+            <TableHead className="text-right text-gray-700 font-semibold">
+              Submitted At
+            </TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -89,9 +97,7 @@ const ResponsesTable = ({ responses, fields }: ResponsesTable) => {
                 />
               ))}
               <TableCell className="text-right">
-                {formatDistance(row.submittedAt, new Date(), {
-                  addSuffix: true,
-                })}
+                {formatRelative(row.submittedAt, new Date())}
               </TableCell>
             </TableRow>
           ))}
