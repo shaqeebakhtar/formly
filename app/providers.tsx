@@ -23,6 +23,8 @@ export default function Providers({ children }: ProvidersProps) {
     })
   );
 
+  console.log(getBaseURL());
+
   return (
     <SessionProvider>
       <api.Provider client={trpcClient} queryClient={queryClient}>
