@@ -1,11 +1,9 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
-import { api } from '@/lib/trpc';
 import { useSession } from 'next-auth/react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { useEffect } from 'react';
 
 const Home = () => {
   const { data: session } = useSession();
@@ -13,7 +11,9 @@ const Home = () => {
 
   if (!session || !session.user) {
     typeof window !== 'undefined' && router.push('/register');
-  } else {
+  }
+
+  if (session && session.user) {
     typeof window !== 'undefined' && router.push('/forms');
   }
 

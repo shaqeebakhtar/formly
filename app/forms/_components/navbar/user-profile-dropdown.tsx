@@ -34,7 +34,7 @@ const UserProfileDropdown = ({
               <AvatarImage src={imageUrl} />
               <AvatarFallback className="font-semibold uppercase">
                 {name[0]}
-                {name[name.length - 1]}
+                {name[name?.length - 1]}
               </AvatarFallback>
             </Avatar>
           </Button>

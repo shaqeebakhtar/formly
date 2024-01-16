@@ -18,6 +18,9 @@ type FormCardProps = {
 const FormCard = ({ form, responses }: FormCardProps) => {
   const shareUrl = `${getBaseURL()}/s/${form.id}`;
 
+  let name = null;
+  if (form) name = form.user.name;
+
   return (
     <Card>
       <CardHeader className="pb-4">
@@ -27,8 +30,8 @@ const FormCard = ({ form, responses }: FormCardProps) => {
               <AvatarImage src={form.user.image || ''} alt="@shadcn" />
               <AvatarFallback>
                 <p className="uppercase">
-                  {form.user.name![0]}
-                  {form.user.name![form.user.name?.length! - 1]}
+                  {name && name[0]}
+                  {name && name[name?.length - 1]}
                 </p>
               </AvatarFallback>
             </Avatar>

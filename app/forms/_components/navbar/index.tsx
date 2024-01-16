@@ -27,9 +27,9 @@ const Navbar = () => {
           </Link>
           <SearchInput />
           <UserProfileDropdown
-            imageUrl={session?.user.image!}
-            name={session?.user.name!}
-            email={session?.user.email!}
+            imageUrl={session?.user?.image || ''}
+            name={session?.user?.name || ''}
+            email={session?.user?.email || ''}
           />
         </div>
       </MaxWidthWrapper>

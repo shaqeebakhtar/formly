@@ -2,13 +2,14 @@
 import { Icons } from '@/components/icons';
 import { Button } from '@/components/ui/button';
 import { signIn, useSession } from 'next-auth/react';
-import { redirect } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 
 const Register = () => {
   const { data: session } = useSession();
+  const router = useRouter();
 
-  if (session?.user) {
-    redirect('/forms');
+  if (session?.user && typeof window !== 'undefined') {
+    router.push('/forms');
   }
 
   const handleSignin = () => {
