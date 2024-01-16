@@ -6,6 +6,7 @@ import FormCard, { FormCardSkeleton } from './_components/form-card';
 import { api } from '@/lib/trpc';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
 
 const FormsDashboard = () => {
   const { data: session } = useSession();
@@ -13,9 +14,11 @@ const FormsDashboard = () => {
 
   const forms = api.form.getAll.useQuery();
 
-  if (!session || !session.user) {
-    router.push('/register');
-  }
+  useEffect(() => {
+    if (!session || !session.user) {
+      router.push('/register');
+    }
+  }, [router, session]);
 
   return (
     <>
