@@ -12,7 +12,7 @@ const Navbar = () => {
   const router = useRouter();
 
   if (!session || !session.user) {
-    router.push('/register');
+    typeof window !== 'undefined' && router.push('/register');
   }
 
   return (
