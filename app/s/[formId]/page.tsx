@@ -3,6 +3,7 @@ import { api } from '@/lib/trpc';
 import SubmissionForm, {
   SubmissionFormSkeleton,
 } from './_components/submission-form';
+import { notFound } from 'next/navigation';
 
 const FormSubmissionPage = ({
   params,
@@ -14,6 +15,10 @@ const FormSubmissionPage = ({
   const getFormFieldsById = api.form.getFieldsById.useQuery({
     formId: params.formId,
   });
+
+  if (!getFormFieldsById.isLoading && !getFormFieldsById.data?.fields) {
+    notFound();
+  }
 
   return (
     <div className="min-h-screen bg-gray-50 w-full flex items-center justify-center">

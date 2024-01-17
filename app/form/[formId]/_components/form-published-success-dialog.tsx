@@ -13,7 +13,6 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Check, Copy } from 'lucide-react';
 import { toast } from 'sonner';
-import { getBaseURL } from '@/lib/utils';
 
 type FormPublishedSuccessDialogProps = {
   formId: string;
@@ -26,7 +25,9 @@ const FormPublishedSuccessDialog = ({
   open,
   setIsOpen,
 }: FormPublishedSuccessDialogProps) => {
-  const shareUrl = `${getBaseURL()}/s/${formId}`;
+  const shareUrl = `${
+    typeof window !== 'undefined' && window.location.origin
+  }/s/${formId}`;
   const [copied, setCopied] = useState(false);
 
   return (

@@ -1,20 +1,17 @@
-'use client';
-
 import { Button } from '@/components/ui/button';
-import { useSession } from 'next-auth/react';
+import { getServerSession } from 'next-auth';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { redirect } from 'next/navigation';
 
-const Home = () => {
-  const { data: session } = useSession();
-  const router = useRouter();
+const Home = async () => {
+  const session = await getServerSession();
 
   if (!session || !session.user) {
-    typeof window !== 'undefined' && router.push('/register');
+    redirect('/register');
   }
 
   if (session && session.user) {
-    typeof window !== 'undefined' && router.push('/forms');
+    redirect('/forms');
   }
 
   return (

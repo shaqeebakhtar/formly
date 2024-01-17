@@ -4,9 +4,9 @@ import { useEditorFields } from '@/store/use-editor-fields';
 import { DragEndEvent, useDndMonitor, useDroppable } from '@dnd-kit/core';
 import { Form } from '@prisma/client';
 import { MousePointerClick } from 'lucide-react';
-import { useEffect } from 'react';
 import EditorField, { EditorFieldSkeleton } from './editor-field';
 import { TFields, formFields } from './form-fields';
+import { useCallback, useEffect } from 'react';
 
 type EditorProps = {
   form: Form;
@@ -29,12 +29,12 @@ const Editor = ({ form }: EditorProps) => {
     },
   });
 
-  useEffect(() => {
+  useCallback(() => {
     if (form.fields) {
-      const fields = JSON.parse(form.fields);
-      setFields(fields);
+      const jsonFields = JSON.parse(form.fields);
+      setFields(jsonFields);
     }
-  }, [form, setFields]);
+  }, [form.fields, setFields]);
 
   useDndMonitor({
     onDragEnd: (event: DragEndEvent) => {

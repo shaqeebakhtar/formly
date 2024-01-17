@@ -8,7 +8,6 @@ import CopyLinkButton from './copy-link-button';
 import FormCardDropdownMenu from './form-card-dropdown-menu';
 import { Skeleton } from '@/components/ui/skeleton';
 import Link from 'next/link';
-import { getBaseURL } from '@/lib/utils';
 
 type FormCardProps = {
   form: Form & { user: Partial<User> };
@@ -16,7 +15,9 @@ type FormCardProps = {
 };
 
 const FormCard = ({ form, responses }: FormCardProps) => {
-  const shareUrl = `${getBaseURL()}/s/${form.id}`;
+  const shareUrl = `${
+    typeof window !== 'undefined' && window.location.origin
+  }/s/${form.id}`;
 
   let name = null;
   if (form) name = form.user.name;

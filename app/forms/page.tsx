@@ -1,15 +1,13 @@
-'use client';
-import { useEffect, useState } from 'react';
+import { getServerSession } from 'next-auth';
 import Dashboard from './_components/dashboard';
+import { redirect } from 'next/navigation';
 
-const FormsDashboard = () => {
-  const [isMounted, setIsMounted] = useState(false);
+const FormsDashboard = async () => {
+  const session = await getServerSession();
 
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
-
-  if (!isMounted) return;
+  if (!session || !session.user) {
+    redirect('/register');
+  }
 
   return <Dashboard />;
 };

@@ -1,21 +1,19 @@
 'use client';
-import React from 'react';
 import MaxWidthWrapper from '@/components/max-width-wrapper';
 import { api } from '@/lib/trpc';
-import { useSession } from 'next-auth/react';
-import { useRouter } from 'next/navigation';
 import CreateFormDialog from './create-form-dialog';
 import FormCard, { FormCardSkeleton } from './form-card';
+import { useEditorFields } from '@/store/use-editor-fields';
+import { useEffect } from 'react';
 
 const Dashboard = () => {
-  const { data: session } = useSession();
-  const router = useRouter();
-
   const forms = api.form.getAll.useQuery();
 
-  if ((!session || !session.user) && typeof window !== 'undefined') {
-    router.push('/register');
-  }
+  const { setFields } = useEditorFields((state) => state);
+
+  useEffect(() => {
+    setFields([]);
+  }, [setFields]);
 
   return (
     <>
@@ -36,6 +34,20 @@ const Dashboard = () => {
       </div>
       <div className="py-8">
         <MaxWidthWrapper>
+          {forms.data?.length === 0 && (
+            <div className="grid place-items-center h-96">
+              <div className="space-y-1 text-center">
+                <p className="text-xl font-semibold">
+                  You have not created any forms yet.
+                </p>{' '}
+                <p className="text-gray-500">
+                  Click on{' '}
+                  <span className="font-semibold">{`"Create form"`}</span> to
+                  create one
+                </p>
+              </div>
+            </div>
+          )}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
             {forms.isLoading &&
               [...Array(4)].map((_, i) => <FormCardSkeleton key={i} />)}

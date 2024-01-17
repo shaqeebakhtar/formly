@@ -5,6 +5,8 @@ import ResponsesTable from './_components/responses-table';
 import MaxWidthWrapper from '@/components/max-width-wrapper';
 import { api } from '@/lib/trpc';
 import ResponsesTopbar from './_components/topbar';
+import { Button } from '@/components/ui/button';
+import { useRouter } from 'next/navigation';
 
 type FormResponsesProps = {
   params: {
@@ -16,6 +18,22 @@ const FormResponses = ({ params }: FormResponsesProps) => {
   const getFormResponsesById = api.form.getResponsesById.useQuery({
     formId: params.formId,
   });
+
+  const router = useRouter();
+
+  if (!getFormResponsesById.data?.published) {
+    return (
+      <div className="min-h-screen grid place-items-center">
+        <div className="flex items-center flex-col space-y-4">
+          <p>
+            <span className="font-bold">Form not published yet.</span>Try
+            publishing your form first.
+          </p>
+          <Button onClick={() => router.push('editor')}>Edit your form</Button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <>

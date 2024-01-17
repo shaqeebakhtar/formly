@@ -1,5 +1,6 @@
 'use client';
 import { api } from '@/lib/trpc';
+import { useEditorFields } from '@/store/use-editor-fields';
 import {
   DndContext,
   MouseSensor,
@@ -7,11 +8,11 @@ import {
   useSensor,
   useSensors,
 } from '@dnd-kit/core';
+import { useId, useState } from 'react';
 import Topbar from '../_components/topbar';
 import DragOverlayWrapper from './_components/drag-overlay-wrapper';
 import Editor, { EditorSkeleton } from './_components/editor';
 import EditorSidebar from './_components/sidebar/sidebar';
-import { useId } from 'react';
 
 type FormEditorProps = {
   params: {
@@ -47,7 +48,7 @@ const FormEditor = ({ params }: FormEditorProps) => {
       <DndContext sensors={sensors} id={id}>
         <div className="w-full flex h-[calc(100vh-66px)]">
           {getFormById.isLoading && <EditorSkeleton />}
-          {getFormById.data && (
+          {!getFormById.isLoading && getFormById.data && (
             <Editor
               form={{
                 ...getFormById.data,

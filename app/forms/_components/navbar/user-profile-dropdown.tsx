@@ -55,7 +55,7 @@ const UserProfileDropdown = ({
           </DropdownMenuLabel>
           <DropdownMenuSeparator />
           <DropdownMenuGroup>
-            <Link href="/settings">
+            <Link href="/forms">
               <DropdownMenuItem>
                 <Settings2 className="w-4 h-4 mr-2" />
                 Settings
@@ -63,7 +63,9 @@ const UserProfileDropdown = ({
             </Link>
           </DropdownMenuGroup>
           <DropdownMenuSeparator />
-          <DropdownMenuItem onClick={() => signOut({ callbackUrl: '/login' })}>
+          <DropdownMenuItem
+            onClick={() => signOut({ callbackUrl: '/register' })}
+          >
             <LogOut className="w-4 h-4 mr-2 rotate-180" />
             Log out
           </DropdownMenuItem>
