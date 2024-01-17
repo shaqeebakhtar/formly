@@ -32,7 +32,7 @@ export const formRouter = router({
         },
       },
       orderBy: {
-        updatedAt: 'desc',
+        createdAt: 'desc',
       },
     });
   }),

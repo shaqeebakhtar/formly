@@ -9,11 +9,12 @@ import { useEffect } from 'react';
 const Dashboard = () => {
   const forms = api.form.getAll.useQuery();
 
-  const { setFields } = useEditorFields((state) => state);
+  const { setFields, setSelectedField } = useEditorFields((state) => state);
 
   useEffect(() => {
     setFields([]);
-  }, [setFields]);
+    setSelectedField(null);
+  }, [setFields, setSelectedField]);
 
   return (
     <>

@@ -75,7 +75,11 @@ function FormComponent({
 }) {
   const field = fieldInstance as CustomInstance;
 
-  return <p className="text-sm">{field.options.title}</p>;
+  return (
+    <div className="space-y-1">
+      <p className="text-sm">{field.options.paragraph}</p>
+    </div>
+  );
 }
 
 function PropertiesComponent({

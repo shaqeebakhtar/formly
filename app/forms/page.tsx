@@ -5,7 +5,7 @@ import { redirect } from 'next/navigation';
 const FormsDashboard = async () => {
   const session = await getServerSession();
 
-  if (!session || !session.user) {
+  if (!session?.user) {
     redirect('/register');
   }
 
